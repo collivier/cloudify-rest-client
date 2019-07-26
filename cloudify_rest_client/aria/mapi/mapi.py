@@ -88,7 +88,7 @@ class RESTMAPI(api.ModelAPI):
             wrapper = wrappers.DictWrapper
             kw = dict(
                     (key, self._wrap(value, '/'.join([attribute_path, key])))
-                    for key, value in value.items()
+                    for key, value in list(value.items())
                 )
         elif isinstance(value, list):
             wrapper = wrappers.ListWrapper

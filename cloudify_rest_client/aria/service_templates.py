@@ -14,8 +14,8 @@
 #    * limitations under the License.
 
 import os
-import urllib
-import urlparse
+import urllib.request, urllib.parse, urllib.error
+import urllib.parse
 from functools import partial
 
 from .. import bytes_stream_utils
@@ -41,14 +41,14 @@ class ServiceTemplateClient(BlueprintsClient):
 
         if application_file_name is not None:
             query_params['application_file_name'] = \
-                urllib.quote(application_file_name)
+                urllib.parse.quote(application_file_name)
 
         uri = '/{self._uri_prefix}/{id}'.format(self=self,
                                                 id=service_template_id)
 
         # For a Windows path (e.g. "C:\aaa\bbb.zip") scheme is the
         # drive letter and therefore the 2nd condition is present
-        if urlparse.urlparse(archive_location).scheme and \
+        if urllib.parse.urlparse(archive_location).scheme and \
                 not os.path.exists(archive_location):
             # archive location is URL
             query_params['service_template_csar_url'] = archive_location

@@ -71,7 +71,7 @@ class DictWrapper(dict, WrapperBase):
         )
 
     def itervalues(self):
-        return iter(self.values())
+        return iter(list(self.values()))
 
     def items(self):
         return [
@@ -81,7 +81,7 @@ class DictWrapper(dict, WrapperBase):
         ]
 
     def iteritems(self):
-        return iter(self.items())
+        return iter(list(self.items()))
 
     def keys(self):
         return [
@@ -91,10 +91,10 @@ class DictWrapper(dict, WrapperBase):
         ]
 
     def iterkeys(self):
-        return iter(self.keys())
+        return iter(list(self.keys()))
 
     def __iter__(self):
-        return self.iterkeys()
+        return iter(self.keys())
 
 
 class ListWrapper(list, WrapperBase):
