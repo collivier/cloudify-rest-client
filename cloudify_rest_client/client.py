@@ -144,13 +144,13 @@ class HTTPClient(object):
                                    verify=verify,
                                    timeout=timeout or self.default_timeout_sec)
         if self.logger.isEnabledFor(logging.DEBUG):
-            for hdr, hdr_content in response.request.headers.iteritems():
+            for hdr, hdr_content in response.request.headers.items():
                 self.logger.debug('request header:  %s: %s'
                                   % (hdr, hdr_content))
             self.logger.debug('reply:  "%s %s" %s'
                               % (response.status_code,
                                  response.reason, response.content))
-            for hdr, hdr_content in response.headers.iteritems():
+            for hdr, hdr_content in response.headers.items():
                 self.logger.debug('response header:  %s: %s'
                                   % (hdr, hdr_content))
 
@@ -209,7 +209,7 @@ class HTTPClient(object):
         body = json.dumps(data) if is_dict_data else data
         if self.logger.isEnabledFor(logging.DEBUG):
             log_message = 'Sending request: {0} {1}'.format(
-                requests_method.func_name.upper(),
+                requests_method.__name__.upper(),
                 request_url)
             if is_dict_data:
                 log_message += '; body: {0}'.format(body)
@@ -299,8 +299,8 @@ class HTTPClient(object):
         if not username or not password:
             return None
         credentials = '{0}:{1}'.format(username, password)
-        encoded_credentials = urlsafe_b64encode(credentials)
-        return BASIC_AUTH_PREFIX + ' ' + encoded_credentials
+        encoded_credentials = urlsafe_b64encode(credentials.encode("utf-8"))
+        return BASIC_AUTH_PREFIX + ' ' + str(encoded_credentials, "utf-8")
 
     def _set_header(self, key, value, log_value=True):
         if not value:
